@@ -3,10 +3,10 @@
 # SQL from Zero
 **I study the technology and this is my "note-book"**
 
-1. [Create DB](#create)
+1. [Создание БД](#create)
 2. 
 
-## <a name="create"></a>A Heading in this SO entry!:
+## <a name="create"></a>Создание БД
 ### *Системные базы данных, которые нужны для работы SQL Server'a:*
  - **master** - главная БД, без нее не будет работать сервер
  - **model** - шаблон для создания других БД
@@ -38,12 +38,10 @@
 
 Этот запрос выведет все записи из таблици Users (Выбрать ВСЕ из БД). Если необходимо выполнить несколько запросов к одной таблице:
 
-`USE [Имя БД]`
-
-`SELECT * FROM [Имя таблицы]`
+`USE [Имя БД]
+SELECT * FROM [Имя таблицы]`
 
 > *Пример:*
  > 
- > `USE bdName`
- >
- > `SELECT * FROM Users`
+ > `USE bdName
+ >  SELECT * FROM Users`
