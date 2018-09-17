@@ -30,21 +30,21 @@
 Перед созданием необходимо создать столбец с ID и устaновить для него *Primary Key*.
 
 ### Пример запроса к БД:
-`SELECT * FROM [Имя БД].[Схема].[Имя таблицы]`
+    SELECT * FROM [Имя БД].[Схема].[Имя таблицы]
 
- > *Пример:*
- > 
- > `SELECT * FROM bdName.dbo.Users`
+*Пример:*
+
+    SELECT * FROM bdName.dbo.Users
 
 Этот запрос выведет все записи из таблици Users (Выбрать ВСЕ из БД). Если необходимо выполнить несколько запросов к одной таблице:
 
-`USE [Имя БД] SELECT * FROM [Имя таблицы]`
+    USE [Имя БД] 
+    SELECT * FROM [Имя таблицы]`
 
- > *Пример:*
- > 
- > USE bdName
- >
- > SELECT * FROM Users
+*Пример:*
+ 
+    USE bdName
+    SELECT * FROM Users
 
 
  ## <a name="base"></a>Основы
@@ -56,11 +56,9 @@
 
 Для прикрипления уже существующих БД к серверу необходимо выполнить 
 
- > CREATE DATABASE BD_NAME
- >
- > ON PRIMARY(FILENAME='path')
- >
- > FOR ATTACH;
+    CREATE DATABASE BD_NAME
+    ON PRIMARY(FILENAME='path')
+    FOR ATTACH;
 
  Для удаления БД необходимо выполнить `DROP DATABASE BD_NAME`
 
@@ -68,15 +66,14 @@
 
  Для добавления таблицы необходимо выполнить следующий запрос:
 
-  > CREATE TABLE TABLE_NAME
-  >
-  > (
-  >     
-  >     Id INT,
-  >     FirstName VARCHAR(64),
-  >     SecondName VARCHAR(64),
-  >     ....
-  >     Age INT
-  >
-  > );
-
+    USE DB_NAME
+    CREATE TABLE TABLE_NAME
+    (
+        
+        Id INT,
+        FirstName VARCHAR(64),
+        SecondName VARCHAR(64),
+        ....
+        Age INT
+    );
+где TABLE_NAME - имя таблицы, (Id, FirstNameб SecondNameб Age) - имена колонок, (INT, VARCHAR(64)) - типы данных. `USE DB_NAME` - указывает, что создавать таблицу необходимо именно в БД с именем DB_NAME
