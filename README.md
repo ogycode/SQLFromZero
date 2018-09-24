@@ -33,6 +33,9 @@
   * [SELECT](#job2)
   * [DISTINCT](#job3)
   * [SELECT INTO](#job4)
+  * [ORDER BY](#job5)
+  * [TOP](#job6)
+  * [OFFSET и FETCH](#job7)
 
 ## <a name="create"></a>Создание БД
 ### <a name="create1"></a>*Системные базы данных, которые нужны для работы SQL Server'a:*
@@ -522,3 +525,60 @@ SELECT - используется для получения данных. При
           column_Name1 + column_Name2,
           column_Name3 * column_Name4
     FROM table_Name2;
+
+### <a name="job5"></a>ORDER BY
+
+ORDER BY - сортировка. Пример испольщования:
+
+#1 (отсортирует данные из таблицы `table_Name` по-возрастанию столбца `column_Name`)
+
+    SELECT * FROM table_Name
+    ORDER BY column_Name;
+
+#2 (такойже как и предыдущий, явно указать, что сортировать нужно по-возрастанию `ASC`)
+
+    SELECT * FROM table_Name
+    ORDER BY column_Name ASC;
+
+#3 (сортрока по-убыванию, использовать ключевое слово `DESC`)
+
+    SELECT * FROM table_Name
+    ORDER BY column_Name DESC;
+
+#4 (несколько аргументов сортировки, если будут одинаковые поля `column_Name1` то они отсортируются по полю `column_Name2`)
+
+    SELECT * FROM table_Name
+    ORDER BY column_Name1 DESC, column_Name2 DESC;
+
+#5 (сложный аргумент сортировки)
+
+    SELECT * FROM table_Name
+    ORDER BY column_Name1 * column_Name2 DESC;
+
+### <a name="job6"></a>TOP
+
+Оператор TOP позволяет выбрать определенное количество строк из таблицы. Пример использования:
+
+#1 (выбрать 5 первых строк из `table_Name`, вместо * можно указать любые столбцы которые нужно получить)
+
+    SELECT TOP 5 * from table_Name;
+
+#2 (выбрать количество строк указав процентное значение с помощью оператора `PERCENT`)
+
+    SELECT TOP 50 PERCENT * from table_Name;
+
+### <a name="job7"></a>OFFSET и FETCH
+
+Оператор TOP позволяет выбрать значения только от начала тоблицы, для выбора набора данных из любого места таблицы применяют оператор OFFSET. Важно! Этот оператор применяется только на отсортированные данные (ORDER BY). Пример испольщования:
+
+#1 (в примере будут выбраны все строки начиная с третей, т.е. пропускаются две строки)
+
+    SELECT * FROM table_Name
+    ORDER BY Id OFFSET 2 ROWS;
+
+#2 (в примере будут выбраны только две строки начиная с третей)
+
+    SELECT * FROM table_Name
+    ORDER BY Id OFFSET 2 ROWS FETCH NEXT 2 ROWS ONLY;
+
+Пример выше может использоватся для реализации навигации по страницам, т.е. определенное количество элементов на странице.
