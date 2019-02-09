@@ -68,6 +68,11 @@
     * [График преобразований](#funcChart)
   * [Функции CASE и IIF](#funcIF)
   * [Функции NEWID, ISNULL и COALESCE](#funcOther)
+* [Переменные](#vars)
+  * [Переменные в запросах](#varsQu)
+  * [Условные выражения](#varsIF)
+  * [Циклы](#varsWH)
+    * [Операторы BREAK и CONTINUE](#varsBC)
 
 ## <a name="create"></a>[⇈](#top) Создание БД
 ### <a name="create1"></a>[⇈](#top) *Системные базы данных, которые нужны для работы SQL Server'a:*
@@ -1290,3 +1295,85 @@ GROUP BY применяется для групировки данных. При
     SELECT AbonentName,
         COALESCE(AbonentNumber, AbonentMail, 'не указано') AS Contacts
     FROM Abonents
+
+## <a name="vars"></a>[⇈](#top) Переменные
+
+Синтаксис объявления переменной:
+
+    DECLARE @Name INT;
+    DECLARE @Name2 NVARCHAR(100), @Name3 SMALLMONEY;
+    DECLARE @Name4 BIT = 0;
+
+Присвоить значение переменной можно с помощью слова `SET`:
+
+    SET @Name = "Vadim"
+
+Вывести значение переменной можно с помощью `PRINT` и `SELECT`:
+
+    PRINT @Name
+    SELECT @Name2
+
+### <a name="varsQU"></a>[⇈](#top) Переменные в запросах
+
+Значение переменным можно присвоить с помощью запросов (SELECT). Пример:
+
+    DECLARE @VAR1 INT;
+    SET @VAR1 = (SELECT COUNT(*) FROM Abonents);
+
+В примере выше переменная `@VAR1` будет хранить количество всех абонентов с таблицы `Abonents`.
+
+Второй пример, в котором происходит присвоение значени из отдельных столбцов. Пример:
+
+    DECLARE @minPrice MONEY, @maxPrice MONEY;
+    SELECT @minPrice=MIN(Price), @maxPrice=MAX(Price) FROM Orders
+
+В примере переменным `@minPrice` и `@maxPrice` будет присвоино минимальная и максимальная сума заказа из таблицы с заказами.
+
+### <a name="varsIF"></a>[⇈](#top) Условные выражения
+
+Пример использования №1:
+
+    IF (SELECT COUNT(*) FROM Orders) > 10
+        PRINT "Больше 10-ти заказов";
+
+Пример использования №2:
+
+    IF (SELECT COUNT(*) FROM Orders) > 10
+        PRINT "Больше 10-ти заказов";
+    ELSE
+        PRINT "Меньше 10-ти заказов";
+
+Если в блоке `IF` больше одной конструкции то необходимо заключить их в блок `BEGIN...END`:
+
+    IF (SELECT COUNT(*) FROM Orders) > 10
+        BEGIN
+            PRINT "Таблица заказов имеет:"
+            PRINT " - Больше 10-ти заказов"
+        END;
+
+### <a name="varsWH"></a>[⇈](#top) Циклы
+
+В T-SQL есть цикл `WHILE`, пример использования:
+
+    DECLARE @i = 100;
+    WHILE @i > 0
+        BEGIN
+            PRINT "i = " + STR(@i)
+            SET @i = @i - 1
+        END;
+
+#### <a name="varsBC"></a>[⇈](#top) Операторы BREAK и CONTINUE
+
+Оператор `BREAK` позволяет завершить цикл, а оператор `CONTINUE` - перейти к новой итерации. Пример использования:
+
+    DECLARE @i INT = 1;
+    WHILE @i > 0
+        BEGIN
+            SET @i = @i + 1;
+            IF @i = 15
+                CONTINUE;
+            IF @i > 100
+                BREAK;
+        END;
+
+В примере выше цикл заверщится после 99-ти итераций, 15-я итерация пропускается.
